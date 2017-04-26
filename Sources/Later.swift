@@ -8,26 +8,26 @@
 
 import Foundation
 
-enum State<Value> {
+internal enum State<Value> {
     case pending
     case fulfilled(Value)
     case rejected(Error)
     
-    var value: Value? {
+    internal var value: Value? {
         if case .fulfilled(let value) = self {
             return value
         }
         return nil
     }
     
-    var error: Error? {
+    internal var error: Error? {
         if case .rejected(let error) = self {
             return error
         }
         return nil
     }
     
-    var isPending: Bool {
+    internal var isPending: Bool {
         if case .pending = self {
             return true
         }
@@ -35,11 +35,11 @@ enum State<Value> {
     }
 }
 
-enum LaterResult<Value> {
+public enum LaterResult<Value> {
     case success(Value)
     case failure(Error)
     
-    func map<OtherValue>(_ transform: @escaping (Value) throws -> OtherValue) -> LaterResult<OtherValue> {
+    public func map<OtherValue>(_ transform: @escaping (Value) throws -> OtherValue) -> LaterResult<OtherValue> {
         switch self {
         case .success(let value):
             do {
@@ -54,61 +54,52 @@ enum LaterResult<Value> {
     }
 }
 
-final class Promisor<Value> {
+public final class Promisor<Value> {
     
-    init() { }
+    public init() { }
     
-    static func performing(work: @escaping (_ fulfill: @escaping (Value) -> (), _ reject: @escaping (Error) -> () ) -> ()) -> Promisor<Value> {
+    public static func performing(work: @escaping (_ fulfill: @escaping (Value) -> (), _ reject: @escaping (Error) -> () ) -> ()) -> Promisor<Value> {
         let promisor = Promisor<Value>()
         work(promisor.fullfill, promisor.reject(with:))
         return promisor
     }
     
-    var onCancel: () -> () = {  }
+    public var onCancel: () -> () = {  }
     
     private var callbacks: [LaterCompletion<Value>] = []
     private var state: State<Value> = .pending
     
     private let lockQueue = DispatchQueue(label: "later_lockQueue")
 
-    
-    var value: Value? {
+    public var value: Value? {
         return lockQueue.sync { state.value }
     }
     
-    var error: Error? {
+    public var error: Error? {
         return lockQueue.sync { state.error }
     }
     
-    var isFulfilled: Bool {
+    public var isFulfilled: Bool {
         return value != nil
     }
     
-    var isFailed: Bool {
+    public var isRejected: Bool {
         return error != nil
     }
     
-    var isPending: Bool {
-        return !isFulfilled && !isFailed
+    public var isPending: Bool {
+        return !isFulfilled && !isRejected
     }
     
-    func fullfill(_ value: Value) {
+    public func fullfill(_ value: Value) {
         updateState(.fulfilled(value))
     }
     
-    func reject(with error: Error) {
+    public func reject(with error: Error) {
         updateState(.rejected(error))
     }
     
     private func updateState(_ newState: State<Value>) {
-//        guard isPending else {
-//            print("Already fullfilled")
-//            return
-//        }
-//        stateAccessQueue.sync {
-//            state = newState
-//        }
-//        fireCompletionHandlers()
         lockQueue.async {
             guard self.state.isPending else {
                 print("Already fulfilled")
@@ -119,7 +110,7 @@ final class Promisor<Value> {
         }
     }
     
-    func addCompletion(_ completion: @escaping (LaterResult<Value>) -> ()) {
+    public func addCompletion(_ completion: @escaping (LaterResult<Value>) -> ()) {
         lockQueue.async {
             self.callbacks.append(completion)
             self.fireCompletionHandlers()
@@ -144,14 +135,14 @@ final class Promisor<Value> {
         self.callbacks.removeAll()
     }
     
-    var proxy: Later<Value> {
+    public var proxy: Later<Value> {
         return Later(submitCompletion: self.addCompletion,
                      cancel: onCancel)
     }
     
 }
 
-typealias LaterCompletion<Value> = (LaterResult<Value>) -> ()
+public typealias LaterCompletion<Value> = (LaterResult<Value>) -> ()
 
 internal func fold<Resulted>(onSuccess: @escaping (Resulted) -> (), onError: @escaping (Error) -> ()) -> (LaterResult<Resulted>) -> () {
     return { result in
@@ -164,18 +155,18 @@ internal func fold<Resulted>(onSuccess: @escaping (Resulted) -> (), onError: @es
     }
 }
 
-struct Later<Value> {
+public struct Later<Value> {
     
     private let _submit: (@escaping LaterCompletion<Value>) -> ()
     private let _cancel: () -> ()
     
-    init(submitCompletion: @escaping (@escaping LaterCompletion<Value>) -> (),
+    public init(submitCompletion: @escaping (@escaping LaterCompletion<Value>) -> (),
          cancel: @escaping () -> ()) {
         self._submit = submitCompletion
         self._cancel = cancel
     }
     
-    func rawModify<OtherValue>(submitCompletion: @escaping (@escaping LaterCompletion<OtherValue>) -> ()) -> Later<OtherValue> {
+    public func rawModify<OtherValue>(submitCompletion: @escaping (@escaping LaterCompletion<OtherValue>) -> ()) -> Later<OtherValue> {
         return Later<OtherValue>(submitCompletion: submitCompletion, cancel: self._cancel)
     }
     
@@ -183,30 +174,30 @@ struct Later<Value> {
         _submit(completion)
     }
     
-    func dispatch(to queue: DispatchQueue) -> Later<Value> {
+    public func dispatch(to queue: DispatchQueue) -> Later<Value> {
         return rawModify { completion in
             self.submit(completion: { result in queue.async(execute: { completion(result) }) })
         }
     }
     
-    func cancel() {
+    public func cancel() {
         _cancel()
     }
     
     @discardableResult
-    func then(_ completion: @escaping (Value) -> ()) -> Later<Value> {
+    public func then(_ completion: @escaping (Value) -> ()) -> Later<Value> {
         let completion = fold(onSuccess: completion, onError: { _ in })
         submit(completion: completion)
         return self
     }
     
     @discardableResult
-    func `catch`(_ completion: @escaping (Error) -> ()) -> Later<Value> {
+    public func `catch`(_ completion: @escaping (Error) -> ()) -> Later<Value> {
         submit(completion: fold(onSuccess: { _ in }, onError: completion))
         return self
     }
     
-    func map<OtherValue>(_ transform: @escaping (Value) throws -> OtherValue) -> Later<OtherValue> {
+    public func map<OtherValue>(_ transform: @escaping (Value) throws -> OtherValue) -> Later<OtherValue> {
         return rawModify { completion in
             let newCompletion: LaterCompletion<Value> = { result in
                 let newResult = result.map(transform)
@@ -216,7 +207,7 @@ struct Later<Value> {
         }
     }
     
-    func flatMap<OtherValue>(_ transform: @escaping (Value) -> Later<OtherValue>) -> Later<OtherValue> {
+    public func flatMap<OtherValue>(_ transform: @escaping (Value) -> Later<OtherValue>) -> Later<OtherValue> {
         return rawModify { completion in
             let newCompletion: LaterCompletion<Value> = { result in
                 switch result {
