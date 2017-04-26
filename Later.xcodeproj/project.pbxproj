@@ -13,6 +13,14 @@
 		52D6D9EA1BEFFFA4002C0205 /* Later.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D6D9961BEFF375002C0205 /* Later.swift */; };
 		52D6DA091BF00081002C0205 /* Later.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D6D9961BEFF375002C0205 /* Later.swift */; };
 		52D6DA261BF00118002C0205 /* Later.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D6D9961BEFF375002C0205 /* Later.swift */; };
+		7CA06D8F1EB0CC7100352F9C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA06D8D1EB0CC7100352F9C /* Extensions.swift */; };
+		7CA06D901EB0CC7100352F9C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA06D8D1EB0CC7100352F9C /* Extensions.swift */; };
+		7CA06D911EB0CC7100352F9C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA06D8D1EB0CC7100352F9C /* Extensions.swift */; };
+		7CA06D921EB0CC7100352F9C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA06D8D1EB0CC7100352F9C /* Extensions.swift */; };
+		7CA06D931EB0CC7100352F9C /* Promisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA06D8E1EB0CC7100352F9C /* Promisor.swift */; };
+		7CA06D941EB0CC7100352F9C /* Promisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA06D8E1EB0CC7100352F9C /* Promisor.swift */; };
+		7CA06D951EB0CC7100352F9C /* Promisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA06D8E1EB0CC7100352F9C /* Promisor.swift */; };
+		7CA06D961EB0CC7100352F9C /* Promisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA06D8E1EB0CC7100352F9C /* Promisor.swift */; };
 		DD7502861C68FDDC006590AF /* LaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D6D9971BEFF375002C0205 /* LaterTests.swift */; };
 		DD7502881C68FEDE006590AF /* Later.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6DA0F1BF000BD002C0205 /* Later.framework */; };
 		DD7502921C690C7A006590AF /* Later.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6D9F01BEFFFBE002C0205 /* Later.framework */; };
@@ -51,6 +59,8 @@
 		52D6D9E21BEFFF6E002C0205 /* Later.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Later.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6D9F01BEFFFBE002C0205 /* Later.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Later.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6DA0F1BF000BD002C0205 /* Later.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Later.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CA06D8D1EB0CC7100352F9C /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Sources/Extensions.swift; sourceTree = "<group>"; };
+		7CA06D8E1EB0CC7100352F9C /* Promisor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Promisor.swift; path = Sources/Promisor.swift; sourceTree = "<group>"; };
 		AD2FAA261CD0B6D800659CF4 /* Later.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Later.plist; sourceTree = "<group>"; };
 		AD2FAA281CD0B6E100659CF4 /* LaterTests.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LaterTests.plist; sourceTree = "<group>"; };
 		DD75027A1C68FCFC006590AF /* Later-macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Later-macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +127,8 @@
 			isa = PBXGroup;
 			children = (
 				52D6D9961BEFF375002C0205 /* Later.swift */,
+				7CA06D8D1EB0CC7100352F9C /* Extensions.swift */,
+				7CA06D8E1EB0CC7100352F9C /* Promisor.swift */,
 				52D6D9971BEFF375002C0205 /* LaterTests.swift */,
 				52D6D99C1BEFF38C002C0205 /* Configs */,
 				52D6D97D1BEFF229002C0205 /* Products */,
@@ -330,7 +342,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0810;
-				ORGANIZATIONNAME = "Later";
+				ORGANIZATIONNAME = Later;
 				TargetAttributes = {
 					52D6D97B1BEFF229002C0205 = {
 						CreatedOnToolsVersion = 7.1;
@@ -443,6 +455,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				52D6D9981BEFF375002C0205 /* Later.swift in Sources */,
+				7CA06D8F1EB0CC7100352F9C /* Extensions.swift in Sources */,
+				7CA06D931EB0CC7100352F9C /* Promisor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,6 +473,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				52D6D9EA1BEFFFA4002C0205 /* Later.swift in Sources */,
+				7CA06D911EB0CC7100352F9C /* Extensions.swift in Sources */,
+				7CA06D951EB0CC7100352F9C /* Promisor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +483,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				52D6DA091BF00081002C0205 /* Later.swift in Sources */,
+				7CA06D921EB0CC7100352F9C /* Extensions.swift in Sources */,
+				7CA06D961EB0CC7100352F9C /* Promisor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +493,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				52D6DA261BF00118002C0205 /* Later.swift in Sources */,
+				7CA06D901EB0CC7100352F9C /* Extensions.swift in Sources */,
+				7CA06D941EB0CC7100352F9C /* Promisor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
