@@ -127,11 +127,6 @@ final class Promisor<Value> {
     }
     
     private func fireCompletionHandlers() {
-        if #available(OSXApplicationExtension 10.12, *) {
-            dispatchPrecondition(condition: .onQueue(lockQueue))
-        } else {
-            print("No dispatch precondition")
-        }
         let actualState = state
         if actualState.isPending {
             return
