@@ -42,7 +42,7 @@ internal func fold<Resulted>(onSuccess: @escaping (Resulted) -> (), onError: @es
     }
 }
 
-public final class Later<Value> : LaterProtocol {
+public final class Later<Value> {
     
     private let _submit: (@escaping LaterCompletion<Value>) -> ()
     private let _cancel: () -> ()
@@ -51,21 +51,6 @@ public final class Later<Value> : LaterProtocol {
                 cancel: @escaping () -> ()) {
         self._submit = submitCompletion
         self._cancel = cancel
-        self.requestValues()
-    }
-    
-    public private(set) var value: Value?
-    public private(set) var error: Error?
-    
-    private func requestValues() {
-        submit { (result) in
-            switch result {
-            case .success(let value):
-                self.value = value
-            case .failure(let error):
-                self.error = error
-            }
-        }
     }
     
     public func rawModify<OtherValue>(submitCompletion: @escaping (@escaping LaterCompletion<OtherValue>) -> ()) -> Later<OtherValue> {
